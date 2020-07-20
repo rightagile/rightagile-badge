@@ -1,0 +1,55 @@
+plugins {
+    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+}
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
+dependencies {
+    api project(':badge-spec')
+
+    implementation 'com.querydsl:querydsl-core'
+    implementation 'com.querydsl:querydsl-jpa'
+    compileOnly 'com.querydsl:querydsl-apt'
+
+    implementation('org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16')
+    implementation('org.mariadb.jdbc:mariadb-java-client')
+    implementation('javax.transaction:javax.transaction-api:1.3')
+    implementation('org.springframework.boot:spring-boot-starter-web')
+    implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    runtime('com.h2database:h2')
+}
+
+def querydslSrcDir = 'build/generated/sources/annotationProcessor/java/main' // QClass 생성 위치
+
+querydsl {
+    library = "com.querydsl:querydsl-apt"
+    jpa = true
+    querydslSourcesDir = querydslSrcDir
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java', querydslSrcDir]
+        }
+    }
+}
+
+compileQuerydsl{
+    options.annotationProcessorPath = configurations.querydsl
+}
+
+configurations {
+    querydsl.extendsFrom compileClasspath
+
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}

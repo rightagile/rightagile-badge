@@ -1,0 +1,19 @@
+apply plugin: 'maven'
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
+dependencies {
+    api project(':badge-accent')
+
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.9.10'
+}
+
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, "seconds"
+}

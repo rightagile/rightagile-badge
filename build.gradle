@@ -1,0 +1,51 @@
+plugins {
+    id 'io.spring.dependency-management' version '1.0.7.RELEASE'
+    id "org.springframework.boot" version "2.1.5.RELEASE"
+    id 'maven'
+}
+
+ext {
+    badgeVersion = '0.0.1-SNAPSHOT'
+
+    accentVersion   = "0.5.1-SNAPSHOT"
+
+    springBootVersion = "2.1.5.RELEASE"
+    springCloudVersion = "Greenwich.RELEASE"
+    springCloudStreamVersion = "Greenwich.RELEASE"
+
+    swaggerVersion      = "2.9.2"
+}
+
+allprojects {
+    group 'rightagile'
+    version badgeVersion
+}
+
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0,'seconds'
+}
+
+subprojects {
+    apply plugin: 'java-library'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'org.springframework.boot'
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
+        }
+        imports {
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        }
+    }
+    dependencies {
+
+        compileOnly('org.projectlombok:lombok:1.18.6')
+        annotationProcessor('org.projectlombok:lombok:1.18.6')
+    }
+}

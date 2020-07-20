@@ -1,0 +1,8 @@
+rootProject.name = 'rightagile-badge'
+include 'badge-spec'
+include 'badge-aggregate'
+include 'badge-flow'
+include 'badge-rest'
+include 'badge-client'
+include 'badge-boot'
+include 'badge-accent'

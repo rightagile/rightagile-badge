@@ -1,0 +1,14 @@
+bootJar {
+    enabled = true
+}
+
+jar {
+    enabled = true
+}
+dependencies {
+    api project(':badge-rest')
+    implementation("io.springfox:springfox-swagger2:${swaggerVersion}")
+    implementation("io.springfox:springfox-swagger-ui:${swaggerVersion}")
+    implementation('org.mariadb.jdbc:mariadb-java-client')
+    implementation('org.springframework.boot:spring-boot-starter-web')
+}
