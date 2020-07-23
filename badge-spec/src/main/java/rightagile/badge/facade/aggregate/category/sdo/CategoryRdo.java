@@ -1,4 +1,4 @@
-package rightagile.badge.facade.aggregate.sdo;
+package rightagile.badge.facade.aggregate.category.sdo;
 
 import lombok.*;
 
@@ -18,5 +18,4 @@ public class CategoryRdo {
     private String subcategoryCode;
     private String subcategoryName;
     private String subcategoryIconUrl;
-
 }

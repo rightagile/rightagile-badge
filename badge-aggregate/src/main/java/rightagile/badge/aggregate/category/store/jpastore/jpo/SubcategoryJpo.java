@@ -3,11 +3,10 @@ package rightagile.badge.aggregate.category.store.jpastore.jpo;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import rightagile.badge.aggregate.badge.category.entity.Category;
-import rightagile.badge.aggregate.badge.category.entity.Subcategory;
+import rightagile.badge.aggregate.category.entity.Category;
+import rightagile.badge.aggregate.category.entity.Subcategory;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Getter
 @NoArgsConstructor(access=AccessLevel.PUBLIC)
@@ -18,6 +17,7 @@ public class SubcategoryJpo {
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "subcategory_seq_gen")
     private Long id;
 
+    @SuppressWarnings("JpaDataSourceORMInspection")
     @ManyToOne
     @JoinColumn(name="parent_category_id")
     private CategoryJpo parentCategoryJpo;
@@ -48,10 +48,4 @@ public class SubcategoryJpo {
         //
         return new Subcategory(id, code, name, iconUrl, parentCategory);
     }
-
-    public static List<Subcategory> toDomains(List<SubcategoryJpo> subcategoryJpoList) {
-//        return subcategoryJpoList.stream().map(SubcategoryJpo::toDomain).collect(Collectors.toList());
-        return null;
-    }
-
 }

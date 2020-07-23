@@ -2,9 +2,9 @@ package rightagile.badge.aggregate.category.store;
 
 import rightagile.badge.accent.shared.domain.Offset;
 import rightagile.badge.accent.shared.domain.OffsetElementList;
-import rightagile.badge.aggregate.badge.category.entity.Category;
-import rightagile.badge.aggregate.badge.category.entity.Subcategory;
-import rightagile.badge.facade.aggregate.sdo.CategoryRdo;
+import rightagile.badge.aggregate.category.entity.Category;
+import rightagile.badge.aggregate.category.entity.Subcategory;
+import rightagile.badge.facade.aggregate.category.sdo.CategoryRdo;
 
 import java.util.List;
 

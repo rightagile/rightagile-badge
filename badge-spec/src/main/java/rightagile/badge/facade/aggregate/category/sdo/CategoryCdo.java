@@ -1,7 +1,7 @@
-package rightagile.badge.facade.aggregate.sdo;
+package rightagile.badge.facade.aggregate.category.sdo;
 
 import lombok.*;
-import rightagile.badge.aggregate.badge.category.entity.Category;
+import rightagile.badge.aggregate.category.entity.Category;
 
 @Getter
 @Setter

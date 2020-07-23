@@ -10,7 +10,7 @@ public class OffsetElementList<T> implements Iterable<T>, Serializable {
     private int totalCount;
 
     protected OffsetElementList() {
-        this.results = new ArrayList();
+        this.results = new ArrayList<>();
     }
 
     public OffsetElementList(int totalCount) {
@@ -24,7 +24,7 @@ public class OffsetElementList<T> implements Iterable<T>, Serializable {
     }
 
     public Iterator<T> iterator() {
-        return this.results.iterator();
+        return results.iterator();
     }
 
     public int size() {

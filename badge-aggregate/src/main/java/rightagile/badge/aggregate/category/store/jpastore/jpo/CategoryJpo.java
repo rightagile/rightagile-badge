@@ -4,12 +4,10 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import rightagile.badge.aggregate.badge.category.entity.Category;
+import rightagile.badge.aggregate.category.entity.Category;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @ToString

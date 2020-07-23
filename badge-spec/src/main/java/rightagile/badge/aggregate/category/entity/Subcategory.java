@@ -1,4 +1,4 @@
-package rightagile.badge.aggregate.badge.category.entity;
+package rightagile.badge.aggregate.category.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;

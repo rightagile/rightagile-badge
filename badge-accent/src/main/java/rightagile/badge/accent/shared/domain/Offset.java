@@ -25,7 +25,7 @@ public class Offset implements JsonSerializable {
     }
 
     public static Offset fromJson(String json) {
-        return (Offset)JsonUtil.fromJson(json, Offset.class);
+        return JsonUtil.fromJson(json, Offset.class);
     }
 
     public static Offset sample() {

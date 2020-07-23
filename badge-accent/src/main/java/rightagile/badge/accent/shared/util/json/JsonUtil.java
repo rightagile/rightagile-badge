@@ -4,15 +4,15 @@ import com.fatboyindustrial.gsonjavatime.Converters;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.apache.commons.lang3.StringUtils;
+
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 public class JsonUtil {
-    private static Gson gson = Converters.registerZonedDateTime(new GsonBuilder()).setPrettyPrinting().create();
+    private static final Gson gson = Converters.registerZonedDateTime(new GsonBuilder()).setPrettyPrinting().create();
 
     public JsonUtil() {
     }
@@ -33,29 +33,20 @@ public class JsonUtil {
         if (json == null) {
             return null;
         } else {
-            List<T> ObjectList = new ArrayList();
-            if (StringUtils.isEmpty(json)) {
-                return ObjectList;
-            } else {
-                Type collectionType = new JsonUtil.ListParameterizedType(valueType);
-                Collection<T> links = (Collection)gson.fromJson(json, collectionType);
+            List<T> ObjectList = new ArrayList<>();
+            if (!StringUtils.isEmpty(json)) {
+                Type collectionType = new ListParameterizedType(valueType);
+                Collection<T> links = gson.fromJson(json, collectionType);
                 if (links != null && !links.isEmpty()) {
-                    Iterator linkIter = links.iterator();
-
-                    while(linkIter.hasNext()) {
-                        ObjectList.add((T) linkIter.next());
-                    }
-
-                    return ObjectList;
-                } else {
-                    return ObjectList;
+                    ObjectList.addAll(links);
                 }
             }
+            return ObjectList;
         }
     }
 
     private static class ListParameterizedType implements ParameterizedType {
-        private Type type;
+        private final Type type;
 
         private ListParameterizedType(Type type) {
             this.type = type;

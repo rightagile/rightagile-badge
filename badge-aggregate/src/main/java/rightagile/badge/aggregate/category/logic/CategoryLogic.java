@@ -1,47 +1,58 @@
 package rightagile.badge.aggregate.category.logic;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import rightagile.badge.accent.shared.domain.Offset;
 import rightagile.badge.accent.shared.domain.OffsetElementList;
-import rightagile.badge.aggregate.badge.category.entity.Category;
-import rightagile.badge.aggregate.badge.category.entity.Subcategory;
+import rightagile.badge.aggregate.category.entity.Category;
+import rightagile.badge.aggregate.category.entity.Subcategory;
+import rightagile.badge.aggregate.category.service.CategoryTaskService;
 import rightagile.badge.aggregate.category.store.CategoryStore;
-import rightagile.badge.facade.aggregate.sdo.CategoryCdo;
-import rightagile.badge.facade.aggregate.sdo.CategoryRdo;
-import rightagile.badge.facade.aggregate.sdo.SubcategoryCdo;
+import rightagile.badge.facade.aggregate.category.sdo.CategoryCdo;
+import rightagile.badge.facade.aggregate.category.sdo.CategoryRdo;
+import rightagile.badge.facade.aggregate.category.sdo.SubcategoryCdo;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
 @Transactional
-public class CategoryLogic {
-    @Autowired
-    private CategoryStore categoryStore;
+public class CategoryLogic implements CategoryTaskService {
+    private final CategoryStore categoryStore;
 
-    public Category findCategory(Long id) {
-        return categoryStore.retrieve(id);
+    public CategoryLogic(CategoryStore categoryStore) {
+        this.categoryStore = categoryStore;
     }
 
-    public List<Subcategory> findAllSubcategories(Long categoryId) {
-        return categoryStore.retrieveAllSubcategories(categoryId);
-    }
-
-    public OffsetElementList<Category> findAllCategories(CategoryRdo searchCondition, Offset offset) {
-        return categoryStore.retrieveAll(searchCondition, offset);
-    }
-
+    @Override
     public Category registerCategory(CategoryCdo categoryCdo) {
         return categoryStore.create(categoryCdo.toDomain());
     }
 
-    public Subcategory registerSubcategory(Long categoryId, SubcategoryCdo subcategoryCdo) {
+    @Override
+    @Transactional(readOnly = true)
+    public Category findCategory(Long categoryId) {
+        return categoryStore.retrieve(categoryId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public OffsetElementList<Category> findAllCategories(CategoryRdo searchCondition, Offset offset) {
+        return categoryStore.retrieveAll(searchCondition, offset);
+    }
+
+    @Override
+    public Subcategory registerSubcategoryOfCategory(Long categoryId, SubcategoryCdo subcategoryCdo) {
         return categoryStore.createSubcategory(categoryId, subcategoryCdo.toDomain());
     }
 
-    public Subcategory findSubcategory(Long id) {
-        return categoryStore.retrieveSubcategory(id);
+    @Override
+    @Transactional(readOnly = true)
+    public List<Subcategory> findAllSubcategoriesOfCategory(Long categoryId) {
+        return categoryStore.retrieveAllSubcategories(categoryId);
     }
 
+    @Transactional(readOnly = true)
+    public Subcategory findSubcategory(Long subcategoryId) {
+        return categoryStore.retrieveSubcategory(subcategoryId);
+    }
 }
