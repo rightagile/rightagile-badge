@@ -29,9 +29,4 @@ public class Category {
         this.iconUrl = iconUrl;
         this.subcategoryList = new ArrayList<>();
     }
-
-    public void addSubcategory(Subcategory subcategory) {
-        this.subcategoryList.add(subcategory);
-        subcategory.setParentCategory(this);
-    }
 }

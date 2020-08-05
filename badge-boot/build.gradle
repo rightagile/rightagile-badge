@@ -8,6 +8,8 @@ jar {
 
 dependencies {
     api project(':badge-rest')
+    api project(':badge-stage-envoy')
+
     implementation("io.springfox:springfox-swagger2:${swaggerVersion}")
     implementation("io.springfox:springfox-swagger-ui:${swaggerVersion}")
     implementation('org.mariadb.jdbc:mariadb-java-client')

@@ -1,0 +1,18 @@
+plugins {
+    id 'java'
+}
+
+group 'rightagile'
+version '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    api project(":badge-stage-spec")
+
+    implementation('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-starter-webflux')
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}

@@ -17,7 +17,10 @@ import rightagile.badge.aggregate.category.store.jpastore.jpo.QSubcategoryJpo;
 import rightagile.badge.aggregate.category.store.jpastore.jpo.SubcategoryJpo;
 import rightagile.badge.aggregate.category.store.jpastore.repository.CategoryRepository;
 import rightagile.badge.aggregate.category.store.jpastore.repository.SubcategoryRepository;
+import rightagile.badge.exception.BadgeException;
+import rightagile.badge.facade.aggregate.category.sdo.CategoryCdo;
 import rightagile.badge.facade.aggregate.category.sdo.CategoryRdo;
+import rightagile.badge.facade.aggregate.category.sdo.SubcategoryCdo;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,7 +49,7 @@ public class CategoryJpaStore implements CategoryStore {
 
     @Override
     public Category retrieve(Long categoryId) {
-       return findCategoryJpoById(categoryId).toDomain();
+        return findCategoryJpoById(categoryId).toDomain();
     }
 
     @Override
@@ -55,7 +58,7 @@ public class CategoryJpaStore implements CategoryStore {
         Page<CategoryJpo> categoryJpoPage = categoryRepository.findAll(makePredicate(searchCondition), pageable);
 
         return new OffsetElementList<>(categoryJpoPage.stream().map(CategoryJpo::toDomain).collect(Collectors.toList()),
-                (int)categoryJpoPage.getTotalElements());
+                (int) categoryJpoPage.getTotalElements());
     }
 
     @Override
@@ -64,27 +67,38 @@ public class CategoryJpaStore implements CategoryStore {
     }
 
     @Override
-    public void update(Category category) {
-
+    public Category update(Long categoryId, CategoryCdo categoryCdo) {
+        CategoryJpo categoryJpo = findCategoryJpoById(categoryId);
+        return categoryJpo.update(categoryCdo.toDomain()).toDomain();
     }
 
     @Override
-    public void delete(Long id) {
-
+    public Category patch(Long categoryId, CategoryCdo categoryCdo) {
+        CategoryJpo categoryJpo = findCategoryJpoById(categoryId);
+        return categoryJpo.patch(categoryCdo.toDomain()).toDomain();
     }
 
+    @Override
+    public void delete(Long categoryId) {
+        CategoryJpo categoryJpo = findCategoryJpoById(categoryId);
+        categoryRepository.delete(categoryJpo);
+    }
 
     @Override
     public Subcategory retrieveSubcategory(Long subcategoryId) {
-        SubcategoryJpo subcategoryJpo = subcategoryRepository.findById(subcategoryId)
-                .orElseThrow(()->new IllegalArgumentException(subcategoryId + "서브카테고리가 없습니다."));
-        return subcategoryJpo.toDomain();
+        return findSubcategoryJpoById(subcategoryId).toDomain();
     }
 
+    @Override
+    public Subcategory updateSubcategory(Long subcategoryId, SubcategoryCdo subcategoryCdo) {
+        SubcategoryJpo categoryJpo = findSubcategoryJpoById(subcategoryId);
+        return categoryJpo.update(subcategoryCdo.toDomain()).toDomain();
+    }
 
     @Override
-    public void updateSubcategory(Subcategory subcategory) {
-
+    public Subcategory patchSubcategory(Long subcategoryId, SubcategoryCdo subcategoryCdo) {
+        SubcategoryJpo categoryJpo = findSubcategoryJpoById(subcategoryId);
+        return categoryJpo.patch(subcategoryCdo.toDomain()).toDomain();
     }
 
     @Override
@@ -93,7 +107,11 @@ public class CategoryJpaStore implements CategoryStore {
     }
 
     private CategoryJpo findCategoryJpoById(Long categoryId) {
-        return categoryRepository.findById(categoryId).orElseThrow(()->new IllegalArgumentException(categoryId + " 카테고리가 없습니다."));
+        return categoryRepository.findById(categoryId).orElseThrow(() -> new BadgeException(BadgeException.Type.NOT_FOUND_ENTITY, categoryId + " Category Not Found"));
+    }
+
+    private SubcategoryJpo findSubcategoryJpoById(Long subcategoryId) {
+        return subcategoryRepository.findById(subcategoryId).orElseThrow(() -> new BadgeException(BadgeException.Type.NOT_FOUND_ENTITY, subcategoryId + " Subcategory Not Found"));
     }
 
     private Predicate makePredicate(CategoryRdo searchCondition) {

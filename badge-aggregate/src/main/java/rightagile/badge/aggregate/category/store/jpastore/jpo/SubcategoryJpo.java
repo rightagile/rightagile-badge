@@ -9,17 +9,17 @@ import rightagile.badge.aggregate.category.entity.Subcategory;
 import javax.persistence.*;
 
 @Getter
-@NoArgsConstructor(access=AccessLevel.PUBLIC)
-@Entity(name="subcategory")
-@SequenceGenerator(name="subcategory_seq_gen", sequenceName = "subcategory_seq")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity(name = "subcategory")
+@SequenceGenerator(name = "subcategory_seq_gen", sequenceName = "subcategory_seq")
 public class SubcategoryJpo {
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "subcategory_seq_gen")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "subcategory_seq_gen")
     private Long id;
 
     @SuppressWarnings("JpaDataSourceORMInspection")
     @ManyToOne
-    @JoinColumn(name="parent_category_id")
+    @JoinColumn(name = "parent_category_id")
     private CategoryJpo parentCategoryJpo;
 
     private String code;
@@ -33,11 +33,21 @@ public class SubcategoryJpo {
         this.parentCategoryJpo = categoryJpo;
     }
 
-    /*
-    public void setParentCategoryJpo(CategoryJpo categoryJpo) {
-        this.parentCategoryJpo = categoryJpo;
+    public SubcategoryJpo update(Subcategory subcategory) {
+        this.code = subcategory.getCode();
+        this.name = subcategory.getName();
+        this.iconUrl = subcategory.getIconUrl();
+
+        return this;
     }
-     */
+
+    public SubcategoryJpo patch(Subcategory subcategory) {
+        this.code = (subcategory.getCode() != null) ? subcategory.getCode() : this.code;
+        this.name = (subcategory.getName() != null) ? subcategory.getName() : this.name;
+        this.iconUrl = (subcategory.getIconUrl() != null) ? subcategory.getIconUrl() : this.iconUrl;
+
+        return this;
+    }
 
     public Subcategory toDomain() {
         //

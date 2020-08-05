@@ -41,6 +41,19 @@ public class CategoryLogic implements CategoryTaskService {
     }
 
     @Override
+    public Category modifyCategory(Long categoryId, CategoryCdo categoryCdo, boolean patched) {
+        if (patched) {
+            return categoryStore.patch(categoryId, categoryCdo);
+        }
+        return categoryStore.update(categoryId, categoryCdo);
+    }
+
+    @Override
+    public void removeCategory(Long categoryId) {
+        categoryStore.delete(categoryId);
+    }
+
+    @Override
     public Subcategory registerSubcategoryOfCategory(Long categoryId, SubcategoryCdo subcategoryCdo) {
         return categoryStore.createSubcategory(categoryId, subcategoryCdo.toDomain());
     }
@@ -54,5 +67,13 @@ public class CategoryLogic implements CategoryTaskService {
     @Transactional(readOnly = true)
     public Subcategory findSubcategory(Long subcategoryId) {
         return categoryStore.retrieveSubcategory(subcategoryId);
+    }
+
+    @Override
+    public Subcategory modifySubcategory(Long subcategoryId, SubcategoryCdo subcategoryCdo, boolean patched) {
+        if (patched) {
+            return categoryStore.patchSubcategory(subcategoryId, subcategoryCdo);
+        }
+        return categoryStore.updateSubcategory(subcategoryId, subcategoryCdo);
     }
 }

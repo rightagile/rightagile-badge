@@ -1,0 +1,17 @@
+dramaId: '0201'
+version: 1.0.0
+note: this is the 1.0.0 note.
+roles:
+  - User
+  - CompanyManager
+  - CollegeManager
+  - SuperManager
+editions:
+  - Standard
+features:
+  - name: CategoryTask
+    memo: CategoryTask
+    editions:
+      - Standard
+domainSpecPackage: rightagile.badge.facade
+domainJarPrefix: badge-spec
