@@ -30,17 +30,6 @@ public class CategoryResource /*implements CategoryTaskFacade */{
 
     @GetMapping("categories/{categoryId}")
     public Category findCategory(@PathVariable(name="categoryId") Long categoryId) throws HttpRequestMethodNotSupportedException {
-        /*
-        System.out.println("NOT EXECUTED");
-        if(true) {
-            throw new EntityNotFoundException();
-            //throw new IllegalArgumentException("TEst");
-        }
-         */
-
-        //if(true) {
-        //    throw new HttpRequestMethodNotSupportedException("TEST");
-        //}
         return categoryTaskService.findCategory(categoryId);
     }
 

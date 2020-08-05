@@ -28,5 +28,5 @@ public interface CategoryTaskFacade {
     Subcategory updateSubcategory(Long subcategoryId, SubcategoryCdo subcategoryCdo);
     Subcategory patchSubcategory(Long subcategoryId, SubcategoryCdo subcategoryCdo);
 
-    SubcategoryRdo findSubcategory(Long id);
+    SubcategoryRdo findSubcategory(Long subcategoryId);
 }
